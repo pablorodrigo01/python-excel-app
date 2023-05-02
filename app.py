@@ -8,10 +8,12 @@ freezer = Freezer(app)
 
 # Página inicial
 @app.route('/')
+@staticmethod
 def index():
     return render_template('index.html')
 
 # Função para atualizar o arquivo
+@staticmethod
 @app.route('/atualizar-arquivo', methods=['POST'])
 def atualizar_arquivo():
     try:

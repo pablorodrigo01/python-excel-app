@@ -8,15 +8,17 @@ freezer = Freezer(app)
 
 # Página inicial
 @app.route('/')
-@staticmethod
 def index():
     return render_template('index.html')
 
 # Função para atualizar o arquivo
-@staticmethod
 @app.route('/atualizar-arquivo', methods=['POST'])
 def atualizar_arquivo():
     try:
+        print("Form data:", request.form)
+        print("Input file path:", request.form['file_input'])
+        print("Output file path:", request.form['file_output'])
+        print("Porcentagem:", request.form['porcentagem_entry'])
         # Lê o arquivo de entrada e extrai as duas colunas desejadas
         df = pd.read_excel(request.form['file_input'], usecols='H, G', skiprows=1)
 

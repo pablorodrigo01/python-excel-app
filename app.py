@@ -6,9 +6,6 @@ from flask_frozen import Freezer
 app = Flask(__name__)
 freezer = Freezer(app)
 
-if __name__ == '__main__':
-    freezer.freeze()
-
 # Página inicial
 @app.route('/')
 def index():
@@ -47,6 +44,6 @@ def atualizar_arquivo():
     except Exception as e:
         # Mostra uma mensagem de erro
         return redirect('/')
-
+    
 if __name__ == '__main__':
-    app.run(debug=True)
+    freezer.freeze()

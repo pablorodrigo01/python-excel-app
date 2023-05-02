@@ -46,7 +46,6 @@ def atualizar_arquivo():
     
     except Exception as e:
         # Mostra uma mensagem de erro
-        messagebox.showerror("Erro", "Ocorreu um erro ao atualizar o arquivo: " + str(e))
         return redirect('/')
 
 if __name__ == '__main__':

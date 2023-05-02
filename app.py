@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from tkinter import filedialog, messagebox
 import pandas as pd
-import tkinter as tk
 from openpyxl import load_workbook
 from flask_frozen import Freezer
 

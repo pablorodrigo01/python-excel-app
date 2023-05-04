@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-
 import pandas as pd
 from openpyxl import load_workbook
 
@@ -38,6 +37,7 @@ def result():
 
         # Retorna uma mensagem de sucesso
         return render_template('result.html', success=True)
+    
 
     except Exception as e:
         # Retorna uma mensagem de erro

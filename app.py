@@ -1,10 +1,8 @@
-from flask import Flask, render_template, request, redirect
-from tkinter import filedialog, messagebox
+from flask import Flask, render_template, request, redirect, flash
 import pandas as pd
-import tkinter as tk
-from openpyxl import load_workbook
 
 app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 # Página inicial
 @app.route('/')
@@ -36,15 +34,14 @@ def atualizar_arquivo():
         # Escreve o DataFrame atualizado de volta para o arquivo
         df_up.to_excel(request.files['file_output'], sheet_name='Anúncios', index=False)
 
-        # Depuração DataFrames 
-        # print(df)
-        # print(df_up)
+        # Mostra uma mensagem de sucesso
+        flash("Arquivo atualizado com sucesso!", "success")
 
         return redirect('/')
     
     except Exception as e:
         # Mostra uma mensagem de erro
-        messagebox.showerror("Erro", "Ocorreu um erro ao atualizar o arquivo: " + str(e))
+        flash("Ocorreu um erro ao atualizar o arquivo: " + str(e), "error")
         return redirect('/')
 
 if __name__ == '__main__':

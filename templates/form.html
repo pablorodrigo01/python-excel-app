@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Atualização de Arquivo</title>
+</head>
+<body>
+	<h1>Atualização de Arquivo</h1>
+
+	<form method="post" action="/result" enctype="multipart/form-data">
+		<label for="file_input">Arquivo de Entrada:</label>
+		<input type="file" name="file_input" id="file_input" required><br>
+
+		<label for="file_output">Arquivo de Saída:</label>
+		<input type="file" name="file_output" id="file_output" required><br>
+
+		<label for="porcentagem">Porcentagem de Aumento:</label>
+		<input type="number" name="porcentagem" id="porcentagem" min="0" step="0.01" required>%<br>
+
+		<button type="submit">Atualizar</button>
+	</form>
+</body>
+</html>

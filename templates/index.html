@@ -61,14 +61,14 @@
 
 <body>
     <h1>Atualização de Arquivo</h1>
-    <form action="/atualizar-arquivo" method="post">
+    <form action="/atualizar-arquivo" method="post" enctype="multipart/form-data">
         <label for="file_input">Selecione o arquivo de entrada:</label><br>
-        <input type="file" id="file_input" name="file_input" accept=".xlsx" required><br>
+        <input type="file" id="file_input" name="file_input" accept=".xlsx"><br>
         <span id="file_input_label"></span><br>
         <label for="porcentagem_entry">Informe o aumento percentual:</label><br>
-        <input type="text" id="porcentagem_entry" name="porcentagem_entry" required><br>
+        <input type="number" id="porcentagem_entry" name="porcentagem_entry"><br>
         <label for="file_output">Selecione o arquivo de destino:</label><br>
-        <input type="file" id="file_output" name="file_output" accept=".xlsx" required><br>
+        <input type="file" id="file_output" name="file_output" accept=".xlsx"><br>
         <span id="file_output_label"></span><br>
         <input type="submit" class="submit-button" value="Atualizar">
     </form>
@@ -95,24 +95,13 @@
             }
         });
 
-        // Adiciona um event listener para o evento "submit" do formulário
-        document.querySelector('form').addEventListener('submit', function (event) {
-            // Previne o envio padrão do formulário
-            event.preventDefault();
-
-            // Realiza a ação desejada (atualização do arquivo, por exemplo)
-            // ...
-
-            // Exibe a mensagem de sucesso
-            Swal.fire({
-                icon: 'success',
-                title: 'Arquivo atualizado com sucesso!',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        })
+        Swal.fire({
+            icon: 'success',
+            title: 'Arquivo atualizado com sucesso!',
+            showConfirmButton: false,
+            timer: 1500
+        });
     </script>
-
 </body>
 
 </html>

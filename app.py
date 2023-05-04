@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect
+from tkinter import filedialog, messagebox
 import pandas as pd
+import tkinter as tk
 from openpyxl import load_workbook
-from flask_frozen import Freezer
 
 app = Flask(__name__)
-freezer = Freezer(app)
 
 # Página inicial
 @app.route('/')
@@ -15,39 +15,37 @@ def index():
 @app.route('/atualizar-arquivo', methods=['POST'])
 def atualizar_arquivo():
     try:
-        print("Form data:", request.form)
-        print("Input file path:", request.form['file_input'])
-        print("Output file path:", request.form['file_output'])
-        print("Porcentagem:", request.form['porcentagem_entry'])
         # Lê o arquivo de entrada e extrai as duas colunas desejadas
-        df = pd.read_excel(request.form['file_input'], usecols='H, G', skiprows=1)
+        df = pd.read_excel(request.files['file_input'], usecols='H, G', skiprows=1)
 
         # Aplica o aumento percentual sobre a coluna "Custo"
         porcentagem = float(request.form['porcentagem_entry'].replace(",", ".")) # Converte a porcentagem para float
         df["Custo"] = df["Custo"] * (1 + porcentagem/100)
 
-        # Abre o arquivo de destino em modo de leitura
-        book = load_workbook(request.form['file_output'])
+        # Carrega o arquivo de destino com o pandas
+        df_up = pd.read_excel(request.files['file_output'], sheet_name='Anúncios')
 
-        # Seleciona a planilha "Anúncios" para atualização
-        sheet = book["Anúncios"]
-
-        # Atualiza as células C3:CX com os valores da coluna "Nome do produto" do arquivo de entrada
-        for i, estoque in enumerate(df["Estoque"], start=4):
-            sheet.cell(row=i, column=5, value=estoque)
+        # Atualiza as células E3:EX com os valores da coluna "Estoque" do arquivo de entrada
+        for i, estoque in enumerate(df["Estoque"], start=2):
+            df_up.loc[i, 'Quantidade\n(Obligatorio)'] = estoque
 
         # Atualiza as células F3:FX com os valores da coluna "Custo" do arquivo de entrada
-        for i, custo in enumerate(df["Custo"], start=4):
-            sheet.cell(row=i, column=6, value=custo)
+        for i, custo in enumerate(df["Custo"], start=2):
+            df_up.loc[i, 'Preço\n(Obligatorio)'] = custo
 
-        # Salva as alterações no arquivo de destino
-        book.save(request.form['file_output'])
+        # Escreve o DataFrame atualizado de volta para o arquivo
+        df_up.to_excel(request.files['file_output'], sheet_name='Anúncios', index=False)
+
+        # Depuração DataFrames 
+        # print(df)
+        # print(df_up)
 
         return redirect('/')
     
     except Exception as e:
         # Mostra uma mensagem de erro
+        messagebox.showerror("Erro", "Ocorreu um erro ao atualizar o arquivo: " + str(e))
         return redirect('/')
-    
+
 if __name__ == '__main__':
-    freezer.freeze()
+    app.run(debug=True)

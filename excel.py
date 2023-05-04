@@ -19,7 +19,7 @@ def atualizar_arquivo():
         # Seleciona a planilha "Anúncios" para atualização
         sheet = book["Anúncios"]
 
-        # Atualiza as células C3:CX com os valores da coluna "Nome do produto" do arquivo de entrada
+        # Atualiza as células E3:EX com os valores da coluna "Estoque" do arquivo de entrada
         for i, estoque in enumerate(df["Estoque"], start=4):
             sheet.cell(row=i, column=5, value=estoque)
 

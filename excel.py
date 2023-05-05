@@ -45,30 +45,58 @@ def atualizar_arquivo():
 root = tk.Tk()
 root.title("Atualização de Arquivo")
 
-# Cria os widgets para seleção dos arquivos
-tk.Label(root, text="Arquivo de Entrada:").grid(row=0, column=0, sticky="w")
-file_input = tk.Entry(root)
-file_input.grid(row=0, column=1)
-tk.Button(root, text="Selecionar", command=lambda: file_input.insert(
-    0, filedialog.askopenfilename())).grid(row=0, column=2)
+# Define o estilo da janela
+root.configure(bg="#F5F5F5")
 
-tk.Label(root, text="Arquivo de Saída:").grid(row=1, column=0, sticky="w")
-file_output = tk.Entry(root)
-file_output.grid(row=1, column=1)
-tk.Button(root, text="Selecionar", command=lambda: file_output.insert(
-    0, filedialog.asksaveasfilename(defaultextension=".xlsx"))).grid(row=1, column=2)
+# Define o tamanho e posição da janela
+largura_janela = 650
+altura_janela = 300
+largura_tela = root.winfo_screenwidth()
+altura_tela = root.winfo_screenheight()
+posx = largura_tela/2 - largura_janela/2
+posy = altura_tela/2 - altura_janela/2
+root.geometry("%dx%d+%d+%d" % (largura_janela, altura_janela, posx, posy))
+
+# Cria os widgets para seleção dos arquivos
+tk.Label(root, text="Arquivo de Entrada:", font=("Arial", 12)).grid(row=0, column=0, sticky="w", padx=20, pady=10)
+file_input_frame = tk.Frame(root)
+file_input_frame.grid(row=0, column=1, pady=10)
+
+file_input = tk.Entry(file_input_frame, width=30, font=("Arial", 12))
+file_input.grid(row=0, column=0)
+
+browse_input_button = tk.Button(file_input_frame, text="Procurar", font=("Arial", 12), command=lambda: file_input.insert(
+    0, filedialog.askopenfilename()))
+browse_input_button.grid(row=0, column=1, padx=10)
+
+tk.Label(root, text="Arquivo de Saída:", font=("Arial", 12)).grid(row=1, column=0, sticky="w", padx=20, pady=10)
+file_output_frame = tk.Frame(root)
+file_output_frame.grid(row=1, column=1, pady=10)
+
+file_output = tk.Entry(file_output_frame, width=30, font=("Arial", 12))
+file_output.grid(row=0, column=0)
+
+browse_output_button = tk.Button(file_output_frame, text="Procurar", font=("Arial", 12), command=lambda: file_output.insert(
+    0, filedialog.asksaveasfilename(defaultextension=".xlsx")))
+browse_output_button.grid(row=0, column=1, padx=10)
 
 # Cria um widget para escolher a porcentagem de aumento
-tk.Label(root, text="Porcentagem de Aumento:").grid(row=2, column=0, sticky="w", pady=10)
-porcentagem_entry = tk.Entry(root, width=5)
-porcentagem_entry.grid(row=2, column=1)
-tk.Label(root, text="\uFF05", anchor="w").grid(row=2, column=2)
+tk.Label(root, text="Porcentagem de Aumento:", font=("Arial", 12)).grid(row=2, column=0, sticky="w", padx=20, pady=10)
+porcentagem_frame = tk.Frame(root)
+porcentagem_frame.grid(row=2, column=1)
+
+porcentagem_entry = tk.Entry(porcentagem_frame, width=10, font=("Arial", 12))
+porcentagem_entry.grid(row=0, column=0)
+
+porcentagem_label = tk.Label(porcentagem_frame, text="%", font=("Arial", 12))
+porcentagem_label.grid(row=0, column=1)
 
 # Cria um widget vazio para adicionar espaço entre o campo de porcentagem e o botão de atualizar
-tk.Label(root, text="").grid(row=3, column=1)
+tk.Label(root, text="", font=("Arial", 12)).grid(row=3, column=1)
 
 # Cria um botão para atualizar o arquivo
-tk.Button(root, text="Atualizar", command=atualizar_arquivo).grid(row=3, column=1, pady=10)
+update_button = tk.Button(root, text="Atualizar", font=("Arial", 12), command=atualizar_arquivo)
+update_button.grid(row=4, column=1, pady=20)
 
 # Inicia o loop principal da interface gráfica
 root.mainloop()

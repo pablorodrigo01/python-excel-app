@@ -6,8 +6,8 @@ from openpyxl import load_workbook
 # Função para atualizar o arquivo
 def atualizar_arquivo():
     try:
-        # Lê o arquivo de entrada e extrai as duas colunas desejadas
-        df = pd.read_excel(file_input.get(), usecols='H, G', skiprows=1)
+        # Lê o arquivo de entrada e extrai as três colunas desejadas
+        df = pd.read_excel(file_input.get(), usecols='B, G, H', skiprows=1)
 
         # Aplica o aumento percentual sobre a coluna "Custo"
         porcentagem = float(porcentagem_entry.get().replace(",", ".")) # Converte a porcentagem para float
@@ -19,13 +19,20 @@ def atualizar_arquivo():
         # Seleciona a planilha "Anúncios" para atualização
         sheet = book["Anúncios"]
 
-        # Atualiza as células E3:EX com os valores da coluna "Estoque" do arquivo de entrada
-        for i, estoque in enumerate(df["Estoque"], start=4):
-            sheet.cell(row=i, column=5, value=estoque)
+        # Itera sobre as linhas do arquivo de entrada
+        for i, row in df.iterrows():
+            nome = row["Nome do produto"]
+            estoque = row["Estoque"]
+            preco = row["Custo"]
 
-        # Atualiza as células F3:FX com os valores da coluna "Custo" do arquivo de entrada
-        for i, custo in enumerate(df["Custo"], start=4):
-            sheet.cell(row=i, column=6, value=custo)
+            # Procura a linha correspondente na planilha de destino
+            for j in range(4, sheet.max_row + 1):
+                titulo = sheet.cell(row=j, column=3).value
+                if titulo == nome:
+                    # Atualiza as células correspondentes na planilha de destino
+                    sheet.cell(row=j, column=5, value=estoque)
+                    sheet.cell(row=j, column=6, value=preco)
+                    break
 
         # Salva as alterações no arquivo de destino
         book.save(file_output.get())
